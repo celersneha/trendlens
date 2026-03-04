@@ -1,2 +1,2 @@
-export { scrapeGithubTrending } from "./github/scrapeGithubTrending";
-export { scrapeDevToTrending } from "./devto/scrapeDevToTrending";
+export { scrapeGithubTrending } from "./github/scrapeGithubTrending.js";
+export { scrapeDevToTrending } from "./devto/scrapeDevToTrending.js";
