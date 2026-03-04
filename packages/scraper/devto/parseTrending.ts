@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import { devtoTrendingConfig } from "../config/devto.config.js";
 
-interface DevToArticle {
+export interface DevToArticle {
   url: string;
   title: string;
   author: string;

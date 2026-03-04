@@ -1,7 +1,17 @@
 import { Page } from "puppeteer";
 import { githubTrendingConfig } from "../config/githubTrending.config.js";
 
-export async function parseGithubTrending(page: Page) {
+export interface GithubRepository {
+  url: string;
+  name: string;
+  owner: string;
+  description: string;
+  language: string;
+  stars: string;
+  forks: string;
+}
+
+export async function parseGithubTrending(page: Page): Promise<GithubRepository[]> {
   // Extract config values to pass as plain strings to avoid transpiler issues
   const configData = {
     url: githubTrendingConfig.url,
@@ -26,7 +36,7 @@ export async function parseGithubTrending(page: Page) {
         const forks = el.querySelector(config.forks);
 
         return {
-          url: url && "href" in url ? url.href : "",
+          url: (url && "href" in url ? url.href : "") as string,
           name: name?.textContent?.trim() || "",
           owner: owner?.textContent?.trim() || "",
           description: description?.textContent?.trim() || "",

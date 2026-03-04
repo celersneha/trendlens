@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./index.ts",
-    "./github": "./github/scrapeGithubTrending.ts",
-    "./devto": "./devto/scrapeDevToTrending.ts"
+    ".": "./dist/index.js",
+    "./github": "./dist/github/scrapeGithubTrending.js",
+    "./devto": "./dist/devto/scrapeDevToTrending.js"
   },
   "scripts": {
+    "build": "tsc",
     "fetch-html": "tsx ../../scripts/fetchHtml.ts",
     "fetchDevToHtml": "tsx ../../scripts/fetchDevToHtml.ts"
   },
@@ -18,7 +20,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.26.1",
   "dependencies": {
-    "puppeteer": "^24.38.0"
+    "puppeteer": "^24.38.0",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/node": "^25.3.3",
