@@ -4,7 +4,7 @@ import {
   triggerGithubJob,
   getDevToTrending,
   triggerDevToJob,
-} from "../controllers/trending.controller";
+} from "../controllers/trending.controller.js";
 
 const router = Router();
 
