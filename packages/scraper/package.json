@@ -1,0 +1,28 @@
+{
+  "name": "@repo/scraper",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./github": "./github/scrapeGithubTrending.ts",
+    "./devto": "./devto/scrapeDevToTrending.ts"
+  },
+  "scripts": {
+    "fetch-html": "tsx ../../scripts/fetchHtml.ts",
+    "fetchDevToHtml": "tsx ../../scripts/fetchDevToHtml.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.26.1",
+  "dependencies": {
+    "puppeteer": "^24.38.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "ts-node": "^10.9.1",
+    "tsx": "^4.7.0"
+  }
+}
