@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
-  cacheDirectory: ".cache/puppeteer",
+  cacheDirectory: path.join(__dirname, ".cache/puppeteer"),
 };
