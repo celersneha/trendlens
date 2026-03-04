@@ -20,6 +20,9 @@ importers:
       '@repo/scraper':
         specifier: workspace:*
         version: link:../../packages/scraper
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.13
       express:
         specifier: ^4.18.2
         version: 4.22.1
@@ -27,9 +30,6 @@ importers:
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.19.13
       nodemon:
         specifier: ^3.1.14
         version: 3.1.14
