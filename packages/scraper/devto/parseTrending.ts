@@ -18,7 +18,7 @@ export async function parseDevToTrending(page: Page): Promise<DevToArticle[]> {
           const title = el.textContent?.trim() || "";
 
           // Extract author and slug from href (format: /author/slug)
-          const parts = href.split("/").filter((p) => p);
+          const parts = href.split("/").filter((p: string) => p);
           const author = parts[0] || "";
           const slug = parts[1] || "";
 

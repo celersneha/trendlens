@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { parseDevToTrending } from "./parseTrending";
+import { parseDevToTrending } from "./parseTrending.js";
 
 export async function scrapeDevToTrending() {
   const browser = await puppeteer.launch({
