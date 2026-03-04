@@ -82,6 +82,9 @@ importers:
       puppeteer:
         specifier: ^24.38.0
         version: 24.38.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
     devDependencies:
       '@types/node':
         specifier: ^25.3.3
