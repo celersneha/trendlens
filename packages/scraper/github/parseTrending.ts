@@ -11,7 +11,9 @@ export interface GithubRepository {
   forks: string;
 }
 
-export async function parseGithubTrending(page: Page): Promise<GithubRepository[]> {
+export async function parseGithubTrending(
+  page: Page,
+): Promise<GithubRepository[]> {
   // Extract config values to pass as plain strings to avoid transpiler issues
   const configData = {
     url: githubTrendingConfig.url,
