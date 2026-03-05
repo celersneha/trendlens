@@ -35,6 +35,12 @@ app.get("/", (req, res) => {
 
 app.use("/api/trending", trendingRoutes);
 
-app.listen(PORT, () => {
-  console.log(`API server running on http://localhost:${PORT}`);
-});
+// Export for Vercel
+export default app;
+
+// Local development server
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`API server running on http://localhost:${PORT}`);
+  });
+}

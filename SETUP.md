@@ -4,24 +4,17 @@
 
 ### Create .env files
 
-**packages/database/.env:**
-
-```
-DATABASE_URL="your_supabase_or_postgresql_url"
-```
-
 **apps/web/.env.local:**
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
-### Generate Prisma Client & Push Schema
+**apps/api/.env:**
 
-```bash
-cd packages/database
-pnpm prisma generate
-pnpm prisma db push
+```
+NODE_ENV=development
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
 ```
 
 ## 2. Start the application
@@ -42,10 +35,16 @@ pnpm dev
 
 ## 3. Test the endpoints
 
-### Trigger scraping job:
+### Get GitHub trending:
 
 ```bash
-curl -X POST http://localhost:3001/api/trending/jobs/github-trending
+curl http://localhost:3001/api/trending/github
+```
+
+### Get Dev.to trending:
+
+```bash
+curl http://localhost:3001/api/trending/devto
 ```
 
 ### Get trending repos:
@@ -58,36 +57,54 @@ curl http://localhost:3001/api/trending/github
 
 Open browser: http://localhost:3000
 
-The dashboard will automatically trigger scraping if the database is empty on first load.
+The dashboard will fetch trending data from the API on load.
 
 ## File Structure Summary
 
 ```
 📦 Backend Architecture (apps/api)
 ├── index.ts                          # Express app entry
+├── scripts/                          # Helper scripts
+│   ├── fetchHtml.ts                  # Fetch GitHub HTML
+│   └── fetchDevToHtml.ts             # Fetch Dev.to HTML
 ├── src/
 │   ├── controllers/
 │   │   └── trending.controller.ts    # Request handlers
-│   ├── services/
-│   │   └── trending.service.ts       # Database operations
-│   ├── jobs/
-│   │   └── githubTrending.job.ts     # Scraping job logic
-│   └── routes/
-│       └── trending.routes.ts        # API routes
-
-📦 Database (packages/db)
-├── prisma/
-│   └── schema.prisma                 # Database schema
-└── client.ts                         # Prisma singleton
+│   ├── routes/
+│   │   └── trending.routes.ts        # API routes
+│   └── scraper/                      # Scraping logic (integrated)
+│       ├── browser/
+│       │   └── chromium.ts           # Browser setup
+│       ├── config/
+│       │   ├── githubTrending.config.ts
+│       │   └── devto.config.ts
+│       ├── github/
+│       │   ├── scrapeGithubTrending.ts
+│       │   ├── parseTrending.ts
+│       │   └── fetchHtml.ts
+│       ├── devto/
+│       │   ├── scrapeDevToTrending.ts
+│       │   ├── parseTrending.ts
+│       │   └── fetchDevToHtml.ts
+│       └── index.ts
+└── vercel.json                       # Vercel deployment config
 
 📦 Frontend (apps/web)
 ├── src/
 │   ├── app/
-│   │   └── page.tsx                  # Dashboard page
+│   │   ├── page.tsx                  # Dashboard page
+│   │   └── layout.tsx                # Root layout
 │   ├── components/
-│   │   └── RepositoryCard.tsx        # Repo card UI
-│   └── services/
-│       └── trending.service.ts       # API client
+│   │   ├── Github/
+│   │   │   ├── GithubTrending.tsx
+│   │   │   └── RepositoryCard.tsx
+│   │   └── DevTo/
+│   │       ├── DevToTrending.tsx
+│   │       └── DevToArticleCard.tsx
+│   ├── services/
+│   │   └── trending.service.ts       # API client
+│   └── types/
+│       └── repository.ts             # TypeScript types
 ```
 
 ## Architecture Flow
@@ -99,50 +116,46 @@ The dashboard will automatically trigger scraping if the database is empty on fi
                 │
                 ▼
 ┌─────────────────────────────────────────────────┐
-│  Next.js Dashboard (apps/web/page.tsx)         │
-│  → Calls trending.service.ts                   │
+│  React Component (Client-Side)                 │
+│  → GithubTrending / DevToTrending              │
 └───────────────┬─────────────────────────────────┘
                 │
                 ▼
 ┌─────────────────────────────────────────────────┐
-│  GET /api/trending/github                      │
-│  → trending.controller.ts                      │
+│  API Request via trending.service.ts           │
+│  → fetch(NEXT_PUBLIC_API_URL/api/trending)    │
 └───────────────┬─────────────────────────────────┘
                 │
                 ▼
 ┌─────────────────────────────────────────────────┐
-│  Check database via getGithubRepos()           │
-│  → trending.service.ts                         │
+│  GET /api/trending/github or /devto            │
+│  → apps/api/src/controllers/                   │
+│     trending.controller.ts                     │
 └───────────────┬─────────────────────────────────┘
                 │
-        ┌───────┴───────┐
-        │ Empty?        │
-        └───┬───────┬───┘
-            │       │
-      Yes   │       │ No
-            │       │
-            ▼       ▼
-    ┌───────────────────┐      ┌──────────────┐
-    │ runGithubTrending │      │ Return repos │
-    │ Job()             │      └──────────────┘
-    └────────┬──────────┘
-             │
-             ▼
-    ┌──────────────────────┐
-    │ scrapeGithubTrending │
-    │ (Puppeteer)          │
-    └────────┬─────────────┘
-             │
-             ▼
-    ┌──────────────────────┐
-    │ saveGithubRepos()    │
-    │ (Prisma upsert)      │
-    └────────┬─────────────┘
-             │
-             ▼
-    ┌──────────────────────┐
-    │ PostgreSQL Database  │
-    └──────────────────────┘
+                ▼
+┌─────────────────────────────────────────────────┐
+│  scrapeGithubTrending() or                     │
+│  scrapeDevToTrending()                         │
+│  → apps/api/src/scraper/                       │
+└───────────────┬─────────────────────────────────┘
+                │
+                ▼
+┌─────────────────────────────────────────────────┐
+│  1. Launch Browser (launchBrowser)             │
+│  2. Navigate to website                        │
+│  3. Parse HTML (parseTrending)                 │
+│  4. Return JSON data                           │
+└─────────────────────────────────────────────────┘
+```
+
+## Helper Scripts
+
+```bash
+# Fetch raw HTML for debugging/offline parsing
+cd apps/api
+pnpm run fetch-html          # GitHub trending HTML
+pnpm run fetch-devto-html    # Dev.to trending HTML
 ```
 
 ## Troubleshooting
@@ -153,17 +166,10 @@ The dashboard will automatically trigger scraping if the database is empty on fi
 - Frontend uses port 3000
 - Change ports in .env if needed
 
-### Prisma errors
+### Chrome/Chromium not found (Local development)
 
-```bash
-cd packages/database
-pnpm prisma generate
-```
-
-### Database connection issues
-
-- Verify DATABASE_URL in packages/database/.env
-- Test connection: `pnpm prisma studio`
+- Install Google Chrome on your system
+- Or update the path in `apps/api/src/scraper/browser/chromium.ts`
 
 ### Scraper fails
 
@@ -177,7 +183,14 @@ For production builds and deployment instructions, see [BUILD.md](./BUILD.md).
 
 **Quick Commands:**
 
-- Local development: `pnpm dev` in api/web folders
-- Production build: `pnpm --filter @repo/scraper run build && pnpm --filter @repo/api run build`
+- Local development: `pnpm dev` in apps/api and apps/web folders
+- Production build: `pnpm --filter @repo/api run build && pnpm --filter @repo/web run build`
 
 The project uses **puppeteer-core** with **@sparticuz/chromium-min** for lightweight Chromium support (<50MB).
+
+**Project Structure:**
+
+- ✅ `apps/api` - Backend API with integrated scraper and scripts
+- ✅ `apps/web` - Frontend Next.js app
+- ❌ `packages/` - Legacy folder (can be deleted)
+- ❌ Root `scripts/` - Legacy folder (moved to apps/api/scripts)

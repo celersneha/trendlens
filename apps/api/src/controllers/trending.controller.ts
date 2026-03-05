@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { scrapeGithubTrending } from "@repo/scraper/github";
-import { scrapeDevToTrending } from "@repo/scraper/devto";
+import { scrapeGithubTrending } from "../scraper/github/scrapeGithubTrending.js";
+import { scrapeDevToTrending } from "../scraper/devto/scrapeDevToTrending.js";
 
 export async function getGithubTrending(req: Request, res: Response) {
   try {
