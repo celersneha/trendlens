@@ -18,8 +18,8 @@ importers:
   apps/api:
     dependencies:
       '@sparticuz/chromium':
-        specifier: ^131.0.0
-        version: 131.0.1
+        specifier: ^133.0.0
+        version: 133.0.0
       '@types/node':
         specifier: ^22.0.0
         version: 22.19.13
@@ -27,7 +27,7 @@ importers:
         specifier: ^4.18.2
         version: 4.22.1
       puppeteer-core:
-        specifier: ^24.38.0
+        specifier: ^24.4.0
         version: 24.38.0
     devDependencies:
       '@types/express':
@@ -606,8 +606,8 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@sparticuz/chromium@131.0.1':
-    resolution: {integrity: sha512-VfmHkQmb/Px0zjwdSQwjRMwFw63Qfj+g4Giumz4jiAGEpXHgIZk6xEwlUz6yiUHVDveK2TEgMR2MR6I3okOE7w==}
+  '@sparticuz/chromium@133.0.0':
+    resolution: {integrity: sha512-wioNxMtSxRI+Y6ymc/UFPX9lY7A1SDgBezjFITH6arwe5CONfWosNDGpgflUGYajxxGktb1k3kjJ83jWzbccBw==}
     engines: {node: '>= 16'}
 
   '@swc/helpers@0.5.15':
@@ -736,9 +736,6 @@ packages:
 
   '@types/node@22.19.13':
     resolution: {integrity: sha512-akNQMv0wW5uyRpD2v2IEyRSZiR+BeGuoB6L310EgGObO44HSMNT8z1xzio28V8qOrgYaopIDNA18YgdXd+qTiw==}
-
-  '@types/node@25.3.3':
-    resolution: {integrity: sha512-DpzbrH7wIcBaJibpKo9nnSQL0MTRdnWttGyE5haGwK86xgMOkFLp7vEyfQPGLOJh5wNYiJ3V9PmUMDhV9u8kkQ==}
 
   '@types/qs@6.14.0':
     resolution: {integrity: sha512-eOunJqu0K1923aExK6y8p6fsihYEn/BYuQ4g0CxAAgFc4b/ZLN4CrsRZ55srTdqoiLzU2B2evC+apEIxprEzkQ==}
@@ -2629,9 +2626,6 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici-types@7.18.2:
-    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
-
   unpipe@1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
@@ -3176,7 +3170,7 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@sparticuz/chromium@131.0.1':
+  '@sparticuz/chromium@133.0.0':
     dependencies:
       follow-redirects: 1.15.11
       tar-fs: 3.1.1
@@ -3304,11 +3298,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@25.3.3':
-    dependencies:
-      undici-types: 7.18.2
-    optional: true
-
   '@types/qs@6.14.0': {}
 
   '@types/range-parser@1.2.7': {}
@@ -3332,7 +3321,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 25.3.3
+      '@types/node': 22.19.13
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)':
@@ -5539,9 +5528,6 @@ snapshots:
   undefsafe@2.0.5: {}
 
   undici-types@6.21.0: {}
-
-  undici-types@7.18.2:
-    optional: true
 
   unpipe@1.0.0: {}
 
