@@ -1,5 +1,5 @@
 import { Page } from "puppeteer-core";
-import { githubTrendingConfig } from "../config/githubTrending.config";
+import { githubTrendingConfig } from "../config/githubTrending.config.js";
 
 export interface GithubRepository {
   url: string;

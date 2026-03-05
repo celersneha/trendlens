@@ -1,5 +1,5 @@
 import { Page } from "puppeteer-core";
-import { devtoTrendingConfig } from "../config/devto.config";
+import { devtoTrendingConfig } from "../config/devto.config.js";
 
 export interface DevToArticle {
   url: string;

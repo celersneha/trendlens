@@ -1,5 +1,5 @@
-import { launchBrowser } from "../browser/chromium";
-import { parseGithubTrending } from "./parseTrending";
+import { launchBrowser } from "../browser/chromium.js";
+import { parseGithubTrending } from "./parseTrending.js";
 
 export async function scrapeGithubTrending() {
   const browser = await launchBrowser();

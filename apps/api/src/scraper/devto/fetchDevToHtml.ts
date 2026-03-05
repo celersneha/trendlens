@@ -1,5 +1,5 @@
 import fs from "fs";
-import { launchBrowser } from "../browser/chromium";
+import { launchBrowser } from "../browser/chromium.js";
 
 export async function fetchDevToHtml() {
   const browser = await launchBrowser();
