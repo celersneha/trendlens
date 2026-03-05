@@ -6,24 +6,21 @@ export async function fetchGithubTrending(): Promise<Repository[]> {
     console.log("Fetching GitHub trending from:", apiUrl);
 
     const response = await fetch(`${apiUrl}/api/trending/github`, {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     });
 
     console.log("GitHub API Response Status:", response.status);
 
     if (!response.ok) {
-      console.error(
-        `Failed to fetch trending repositories: ${response.status} ${response.statusText}`,
-      );
-      return [];
+      throw new Error(`Failed: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log("GitHub data received:", data.data?.length || 0);
+    console.log("GitHub data received:", data.data?.length || 0, "repos");
     return data.data || [];
   } catch (error) {
     console.error("Error fetching trending repositories:", error);
-    return [];
+    throw error;
   }
 }
 
@@ -33,23 +30,20 @@ export async function fetchDevToTrending(): Promise<DevToArticle[]> {
     console.log("Fetching DevTo trending from:", apiUrl);
 
     const response = await fetch(`${apiUrl}/api/trending/devto`, {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     });
 
     console.log("DevTo API Response Status:", response.status);
 
     if (!response.ok) {
-      console.error(
-        `Failed to fetch trending articles: ${response.status} ${response.statusText}`,
-      );
-      return [];
+      throw new Error(`Failed: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log("DevTo data received:", data.data?.length || 0);
+    console.log("DevTo data received:", data.data?.length || 0, "articles");
     return data.data || [];
   } catch (error) {
     console.error("Error fetching trending articles:", error);
-    return [];
+    throw error;
   }
 }
