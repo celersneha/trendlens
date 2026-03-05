@@ -1,11 +1,8 @@
-import puppeteer from "puppeteer";
 import fs from "fs";
+import { launchBrowser } from "../browser/chromium.js";
 
 export async function fetchGithubHTML() {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  const browser = await launchBrowser();
 
   const page = await browser.newPage();
 

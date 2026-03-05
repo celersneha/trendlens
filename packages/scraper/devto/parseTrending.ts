@@ -1,4 +1,4 @@
-import { Page } from "puppeteer";
+import { Page } from "puppeteer-core";
 import { devtoTrendingConfig } from "../config/devto.config.js";
 
 export interface DevToArticle {

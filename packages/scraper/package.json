@@ -12,7 +12,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "postinstall": "npx puppeteer browsers install chrome",
     "fetch-html": "tsx ../../scripts/fetchHtml.ts",
     "fetchDevToHtml": "tsx ../../scripts/fetchDevToHtml.ts"
   },
@@ -21,7 +20,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.26.1",
   "dependencies": {
-    "puppeteer": "^24.38.0",
+    "puppeteer-core": "^24.38.0",
+    "@sparticuz/chromium-min": "^131.0.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {

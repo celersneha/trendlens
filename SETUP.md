@@ -167,5 +167,17 @@ pnpm prisma generate
 
 ### Scraper fails
 
-- Ensure Chrome is installed for Puppeteer
+- Ensure Chrome is installed locally (for development)
 - Check network connectivity to github.com
+- For production deployment, see BUILD.md
+
+## Build & Deployment
+
+For production builds and deployment instructions, see [BUILD.md](./BUILD.md).
+
+**Quick Commands:**
+
+- Local development: `pnpm dev` in api/web folders
+- Production build: `pnpm --filter @repo/scraper run build && pnpm --filter @repo/api run build`
+
+The project uses **puppeteer-core** with **@sparticuz/chromium-min** for lightweight Chromium support (<50MB).

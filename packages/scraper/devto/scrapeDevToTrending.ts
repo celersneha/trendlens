@@ -1,16 +1,8 @@
-import puppeteer from "puppeteer";
+import { launchBrowser } from "../browser/chromium.js";
 import { parseDevToTrending } from "./parseTrending.js";
 
 export async function scrapeDevToTrending() {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu",
-    ],
-  });
+  const browser = await launchBrowser();
 
   const page = await browser.newPage();
 
