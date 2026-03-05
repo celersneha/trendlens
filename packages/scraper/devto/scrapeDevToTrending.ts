@@ -16,14 +16,20 @@ export async function scrapeDevToTrending() {
 
   try {
     await page.goto("https://dev.to/top/day", {
-      waitUntil: "networkidle2",
-      timeout: 30000,
+      waitUntil: "domcontentloaded",
+      timeout: 45000,
     });
 
-    // Wait for articles to load
-    await page.waitForSelector("a.crayons-link.crayons-link--contentful", {
-      timeout: 10000,
-    });
+    // Wait for articles to load - retry logic
+    try {
+      await page.waitForSelector("a.crayons-link.crayons-link--contentful", {
+        timeout: 15000,
+      });
+    } catch (e) {
+      // Fallback selector if main one fails
+      console.log("Main selector failed, trying fallback...");
+      await page.waitForSelector("article", { timeout: 10000 });
+    }
 
     const articles = await parseDevToTrending(page);
 

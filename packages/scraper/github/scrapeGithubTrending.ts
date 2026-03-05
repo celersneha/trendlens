@@ -16,12 +16,12 @@ export async function scrapeGithubTrending() {
 
   try {
     await page.goto("https://github.com/trending", {
-      waitUntil: "networkidle2",
-      timeout: 30000,
+      waitUntil: "domcontentloaded",
+      timeout: 45000,
     });
 
-    // Wait for content to load
-    await page.waitForSelector("article.Box-row", { timeout: 10000 });
+    // Wait for articles to load
+    await page.waitForSelector("article.Box-row", { timeout: 15000 });
 
     const repos = await parseGithubTrending(page);
 
