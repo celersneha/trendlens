@@ -4,7 +4,7 @@ export async function fetchGithubTrending(): Promise<Repository[]> {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
     const response = await fetch(`${apiUrl}/api/trending/github`, {
-      cache: "no-store",
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (!response.ok) {
@@ -24,7 +24,7 @@ export async function fetchDevToTrending(): Promise<DevToArticle[]> {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
     const response = await fetch(`${apiUrl}/api/trending/devto`, {
-      cache: "no-store",
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (!response.ok) {
