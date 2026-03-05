@@ -25,11 +25,11 @@ export async function scrapeGithubTrending() {
 
     const repos = await parseGithubTrending(page);
 
-    await page.close();
+    await browser.close();
 
     return repos;
   } catch (error) {
-    await page.close();
+    await browser.close();
     throw error;
   }
 }

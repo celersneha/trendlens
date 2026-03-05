@@ -33,11 +33,11 @@ export async function scrapeDevToTrending() {
 
     const articles = await parseDevToTrending(page);
 
-    await page.close();
+    await browser.close();
 
     return articles;
   } catch (error) {
-    await page.close();
+    await browser.close();
     throw error;
   }
 }
