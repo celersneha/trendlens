@@ -1,2 +1,2 @@
-import { fetchGithubHTML } from "../src/scraper/github/fetchHtml.js";
+import { fetchGithubHTML } from "../src/scraper/github/fetchHtml";
 fetchGithubHTML();

@@ -48,12 +48,21 @@ pnpm dev
 1. Create new Vercel project
 2. Root Directory: `apps/api`
 3. Framework: Other
-4. Build Command: `pnpm run build`
-5. Environment Variables:
+4. Build Command: Leave default (Vercel auto-detects)
+5. Output Directory: Leave empty
+6. Install Command: Leave default
+7. Environment Variables:
    ```
    NODE_ENV=production
    ALLOWED_ORIGINS=https://your-frontend.vercel.app
    ```
+
+**Important Notes:**
+
+- Vercel will automatically compile TypeScript
+- The `/api` folder is the serverless function entry point
+- Memory: 1024MB (configured in vercel.json)
+- Max Duration: 60s (configured in vercel.json)
 
 ### Frontend
 

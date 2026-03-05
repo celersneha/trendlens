@@ -1,2 +1,2 @@
-import { fetchDevToHtml } from "../src/scraper/devto/fetchDevToHtml.js";
+import { fetchDevToHtml } from "../src/scraper/devto/fetchDevToHtml";
 fetchDevToHtml();

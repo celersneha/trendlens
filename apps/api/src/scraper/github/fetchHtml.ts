@@ -1,5 +1,5 @@
 import fs from "fs";
-import { launchBrowser } from "../browser/chromium.js";
+import { launchBrowser } from "../browser/chromium";
 
 export async function fetchGithubHTML() {
   const browser = await launchBrowser();
