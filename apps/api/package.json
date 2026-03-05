@@ -20,7 +20,7 @@
     "express": "^4.18.2",
     "@types/node": "^22.0.0",
     "puppeteer-core": "^24.38.0",
-    "@sparticuz/chromium-min": "^131.0.0"
+    "@sparticuz/chromium": "^131.0.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

@@ -1,26 +1,18 @@
 import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium-min";
+import chromium from "@sparticuz/chromium";
 
 const isProduction = process.env.NODE_ENV === "production";
-let cachedExecutablePath: string | null = null;
 
 export async function launchBrowser() {
   if (isProduction) {
-    // Production: Use @sparticuz/chromium-min with caching
+    // Production: Use @sparticuz/chromium (bundled with all dependencies)
     try {
-      // Use cached path if available
-      if (!cachedExecutablePath) {
-        console.log("Downloading Chromium for production...");
-        cachedExecutablePath = await chromium.executablePath(
-          `https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar`,
-        );
-        console.log("Chromium downloaded successfully:", cachedExecutablePath);
-      }
+      console.log("Launching Chromium for production...");
 
       return puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        executablePath: cachedExecutablePath,
+        executablePath: await chromium.executablePath(),
         headless: chromium.headless,
         timeout: 60000, // 60 second timeout for browser launch
       });
