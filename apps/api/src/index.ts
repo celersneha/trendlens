@@ -1,5 +1,6 @@
 import express from "express";
 import trendingRoutes from "./routes/trending.routes.js";
+import cronRouter from "./routes/cron.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/trending", trendingRoutes);
+app.use("/api/cron", cronRouter);
 
 // Export for Vercel
 export default app;
