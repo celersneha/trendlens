@@ -34,7 +34,7 @@ export default function HackerNewsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <section className="bg-primary text-white py-12">
+      <section className="bg-gray-50 text-primary py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 mb-4">
             <FiTrendingUp className="text-5xl text-accent" />
