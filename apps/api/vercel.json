@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "pnpm prisma generate && pnpm build",
-  "outputDirectory": "dist",
+  "buildCommand": "pnpm prisma generate",
   "functions": {
     "api/index.ts": {
-      "memory": 1024,
       "maxDuration": 60
     }
   },
