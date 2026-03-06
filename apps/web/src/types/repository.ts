@@ -13,3 +13,13 @@ export interface DevToArticle {
   author: string;
   slug: string;
 }
+export interface HackerNewsStory {
+  id: number;
+  title: string;
+  url: string | null;
+  by: string;
+  score: number;
+  time: number;
+  descendants: number;
+  type: string;
+}

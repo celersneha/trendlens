@@ -1,4 +1,8 @@
-import { scrapeDevToTrending, scrapeGithubTrending } from "../scraper/index.js";
+import {
+  scrapeDevToTrending,
+  scrapeGithubTrending,
+  scrapeHackerNewsTrending,
+} from "../scraper/index.js";
 import { prisma } from "../lib/db.js";
 
 interface CronResult {
@@ -7,8 +11,10 @@ interface CronResult {
   details?: {
     clearedDevToArticles: number;
     clearedGithubRepositories: number;
+    clearedHackerNewsStories: number;
     scrapedDevToArticles: number;
     scrapedGithubRepositories: number;
+    scrapedHackerNewsStories: number;
   };
   error?: string;
   timestamp?: string;
@@ -16,11 +22,12 @@ interface CronResult {
 
 /**
  * Clear all records from the database
- * Deletes all DevTo articles and GitHub repositories
+ * Deletes all DevTo articles, GitHub repositories, and Hacker News stories
  */
 async function clearDatabase(): Promise<{
   devToCount: number;
   githubCount: number;
+  hackerNewsCount: number;
 }> {
   console.log("Starting database cleanup...");
 
@@ -30,9 +37,13 @@ async function clearDatabase(): Promise<{
   const githubCount = await prisma.githubRepository.deleteMany({});
   console.log(`Deleted ${githubCount.count} GitHub repositories`);
 
+  const hackerNewsCount = await prisma.hackerNewsStory.deleteMany({});
+  console.log(`Deleted ${hackerNewsCount.count} Hacker News stories`);
+
   return {
     devToCount: devToCount.count,
     githubCount: githubCount.count,
+    hackerNewsCount: hackerNewsCount.count,
   };
 }
 
@@ -42,11 +53,13 @@ async function clearDatabase(): Promise<{
 async function seedDatabase(): Promise<{
   devToCount: number;
   githubCount: number;
+  hackerNewsCount: number;
 }> {
   console.log("Starting database seeding...");
 
   let devToCount = 0;
   let githubCount = 0;
+  let hackerNewsCount = 0;
 
   try {
     // Scrape DevTo trending
@@ -90,9 +103,31 @@ async function seedDatabase(): Promise<{
     throw new Error(`Failed to scrape GitHub trending: ${errorMsg}`);
   }
 
+  try {
+    // Scrape Hacker News trending
+    console.log("Scraping Hacker News trending stories...");
+    const hackerNewsStories = await scrapeHackerNewsTrending();
+
+    if (hackerNewsStories && hackerNewsStories.length > 0) {
+      await prisma.hackerNewsStory.createMany({
+        data: hackerNewsStories,
+      });
+      hackerNewsCount = hackerNewsStories.length;
+      console.log(`Successfully seeded ${hackerNewsCount} Hacker News stories`);
+    } else {
+      console.log("No Hacker News stories found");
+    }
+  } catch (error) {
+    const errorMsg =
+      error instanceof Error ? error.message : "Unknown error occurred";
+    console.error("Error scraping Hacker News:", errorMsg);
+    throw new Error(`Failed to scrape Hacker News trending: ${errorMsg}`);
+  }
+
   return {
     devToCount,
     githubCount,
+    hackerNewsCount,
   };
 }
 
@@ -129,8 +164,10 @@ export async function executeCronJob(): Promise<CronResult> {
       details: {
         clearedDevToArticles: clearResult.devToCount,
         clearedGithubRepositories: clearResult.githubCount,
+        clearedHackerNewsStories: clearResult.hackerNewsCount,
         scrapedDevToArticles: seedResult.devToCount,
         scrapedGithubRepositories: seedResult.githubCount,
+        scrapedHackerNewsStories: seedResult.hackerNewsCount,
       },
       timestamp: new Date().toISOString(),
     };

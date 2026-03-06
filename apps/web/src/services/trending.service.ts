@@ -1,4 +1,4 @@
-import { Repository, DevToArticle } from "@/types/repository";
+import { Repository, DevToArticle, HackerNewsStory } from "@/types/repository";
 
 export async function fetchGithubTrending(): Promise<Repository[]> {
   try {
@@ -44,6 +44,34 @@ export async function fetchDevToTrending(): Promise<DevToArticle[]> {
     return data.data || [];
   } catch (error) {
     console.error("Error fetching trending articles:", error);
+    throw error;
+  }
+}
+
+export async function fetchHackerNewsTrending(): Promise<HackerNewsStory[]> {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    console.log("Fetching Hacker News trending from:", apiUrl);
+
+    const response = await fetch(`${apiUrl}/api/trending/hackernews`, {
+      cache: "no-store",
+    });
+
+    console.log("Hacker News API Response Status:", response.status);
+
+    if (!response.ok) {
+      throw new Error(`Failed: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log(
+      "Hacker News data received:",
+      data.data?.length || 0,
+      "stories",
+    );
+    return data.data || [];
+  } catch (error) {
+    console.error("Error fetching Hacker News trending:", error);
     throw error;
   }
 }

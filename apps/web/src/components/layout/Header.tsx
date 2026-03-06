@@ -47,6 +47,14 @@ export default function Header() {
             >
               Dev.to
             </Link>
+            <Link
+              href="/hackernews"
+              className={`text-sm font-medium transition-colors hover:text-accent ${
+                isActive("/hackernews") ? "text-accent" : "text-gray-300"
+              }`}
+            >
+              Hacker News
+            </Link>
           </nav>
         </div>
       </div>

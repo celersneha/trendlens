@@ -5,18 +5,22 @@ import Link from "next/link";
 import {
   fetchGithubTrending,
   fetchDevToTrending,
+  fetchHackerNewsTrending,
 } from "@/services/trending.service";
-import { Repository, DevToArticle } from "@/types/repository";
+import { Repository, DevToArticle, HackerNewsStory } from "@/types/repository";
 import RepositoryCard from "@/components/Github/RepositoryCard";
 import DevToArticleCard from "@/components/DevTo/DevToArticleCard";
-import { FiArrowRight, FiGithub } from "react-icons/fi";
+import HackerNewsStoryCard from "@/components/HackerNews/HackerNewsStoryCard";
+import { FiArrowRight, FiGithub, FiTrendingUp } from "react-icons/fi";
 import { SiDevdotto } from "react-icons/si";
 
 export default function Home() {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [articles, setArticles] = useState<DevToArticle[]>([]);
+  const [stories, setStories] = useState<HackerNewsStory[]>([]);
   const [loadingRepos, setLoadingRepos] = useState(true);
   const [loadingArticles, setLoadingArticles] = useState(true);
+  const [loadingStories, setLoadingStories] = useState(true);
 
   useEffect(() => {
     const loadRepos = async () => {
@@ -41,12 +45,25 @@ export default function Home() {
       }
     };
 
+    const loadStories = async () => {
+      try {
+        const data = await fetchHackerNewsTrending();
+        setStories(data);
+      } catch (err) {
+        console.error("Error loading Hacker News trending:", err);
+      } finally {
+        setLoadingStories(false);
+      }
+    };
+
     loadRepos();
     loadArticles();
+    loadStories();
   }, []);
 
   const displayRepos = repos.slice(0, 6);
   const displayArticles = articles.slice(0, 6);
+  const displayStories = stories.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -136,6 +153,43 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayArticles.map((article) => (
                 <DevToArticleCard key={article.url} article={article} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Hacker News Trending Section */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <FiTrendingUp className="text-3xl text-primary" />
+              <h2 className="text-3xl font-bold text-primary">
+                Hacker News Trending
+              </h2>
+            </div>
+            <Link
+              href="/hackernews"
+              className="flex items-center gap-2 px-4 py-2 bg-accent text-primary font-semibold rounded-lg hover:bg-secondary transition-colors"
+            >
+              View All
+              <FiArrowRight />
+            </Link>
+          </div>
+
+          {loadingStories ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600">Loading stories...</p>
+            </div>
+          ) : displayStories.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No stories available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayStories.map((story) => (
+                <HackerNewsStoryCard key={story.id} story={story} />
               ))}
             </div>
           )}
