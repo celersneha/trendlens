@@ -1,31 +1,29 @@
 import { FiGithub, FiLinkedin, FiTwitter, FiMail } from "react-icons/fi";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   const socialLinks = [
     {
       name: "GitHub",
       icon: FiGithub,
-      href: "https://github.com",
+      href: "https://github.com/celersneha",
       ariaLabel: "Visit our GitHub profile",
     },
     {
       name: "LinkedIn",
       icon: FiLinkedin,
-      href: "https://linkedin.com",
+      href: "https://linkedin.com/celersneha",
       ariaLabel: "Connect on LinkedIn",
     },
     {
       name: "Twitter",
       icon: FiTwitter,
-      href: "https://twitter.com",
+      href: "https://x.com/celersneha",
       ariaLabel: "Follow us on Twitter",
     },
     {
       name: "Email",
       icon: FiMail,
-      href: "mailto:contact@trendlens.com",
+      href: "mailto:celersneha@gmail.com",
       ariaLabel: "Send us an email",
     },
   ];
@@ -51,18 +49,6 @@ export default function Footer() {
                 </a>
               );
             })}
-          </div>
-
-          {/* Copyright */}
-          <div className="text-center">
-            <p className="text-gray-500 text-sm">
-              © {currentYear}{" "}
-              <span className="text-accent font-semibold">TrendLens</span>. All
-              rights reserved.
-            </p>
-            <p className="text-gray-600 text-xs mt-1">
-              Discover trending repositories and articles
-            </p>
           </div>
         </div>
       </div>
