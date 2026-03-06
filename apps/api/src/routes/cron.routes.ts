@@ -4,24 +4,48 @@ import { executeCronJob } from "../utils/cronUtils.js";
 const cronRouter = Router();
 
 /**
- * POST /api/cron
- * Cron job endpoint that runs at midnight every day
+ * GET /api/cron
+ * Cron job endpoint that runs at midnight every day (invoked by Vercel)
  * Clears the database and re-seeds with latest trending data
+ *
+ * Headers:
+ * - Authorization: Bearer <CRON_SECRET>
  */
-cronRouter.post("/", async (req: Request, res: Response) => {
+cronRouter.get("/", async (req: Request, res: Response) => {
   try {
-    // Verify the request is from Vercel cron
-    // In production, you might want to add authentication here
+    // Verify the cron secret token from Authorization header
+    const cronSecret = process.env.CRON_SECRET;
     const authHeader = req.headers.authorization;
 
-    if (process.env.NODE_ENV === "production" && !authHeader) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized - Missing authorization header",
-      });
+    if (!cronSecret) {
+      console.warn(
+        "⚠️  WARNING: CRON_SECRET is not set in environment variables",
+      );
     }
 
-    console.log(`Cron job triggered at ${new Date().toISOString()}`);
+    if (process.env.NODE_ENV === "production") {
+      if (!cronSecret || !authHeader) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized - Missing Authorization header",
+        });
+      }
+
+      // Extract token from "Bearer <token>" format
+      const providedSecret = authHeader.startsWith("Bearer ")
+        ? authHeader.substring(7)
+        : authHeader;
+
+      if (providedSecret !== cronSecret) {
+        console.error("❌ Cron request failed: Invalid CRON_SECRET");
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized - Invalid CRON_SECRET",
+        });
+      }
+    }
+
+    console.log(`✅ Cron job triggered at ${new Date().toISOString()}`);
 
     // Execute the cron job
     const result = await executeCronJob();
