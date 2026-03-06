@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { scrapeDevToTrending } from "../scraper";
-import { prisma } from "../lib/db";
-import { getOrScrapeAndStore } from "../utils/dbUtils";
+import { scrapeDevToTrending } from "../scraper/index.js";
+import { prisma } from "../lib/db.js";
+import { getOrScrapeAndStore } from "../utils/dbUtils.js";
 
 export async function getDevToTrending(req: Request, res: Response) {
   try {

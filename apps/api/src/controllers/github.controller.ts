@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { scrapeGithubTrending } from "../scraper";
-import { prisma } from "../lib/db";
-import { getOrScrapeAndStore } from "../utils/dbUtils";
+import { scrapeGithubTrending } from "../scraper/index.js";
+import { prisma } from "../lib/db.js";
+import { getOrScrapeAndStore } from "../utils/dbUtils.js";
 
 export async function getGithubTrending(req: Request, res: Response) {
   try {
