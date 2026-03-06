@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm prisma generate && pnpm db:push --accept-data-loss && pnpm build",
+  "buildCommand": "pnpm prisma generate && pnpm db:push && pnpm build",
   "outputDirectory": "dist",
   "functions": {
     "api/index.ts": {
