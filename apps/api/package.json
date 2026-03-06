@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch . --ext ts --exec tsx src/index.ts",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && prisma db push && tsc",
     "start": "node dist/index.js",
     "fetch-html": "tsx scripts/fetchHtml.ts",
     "fetch-devto-html": "tsx scripts/fetchDevToHtml.ts",
