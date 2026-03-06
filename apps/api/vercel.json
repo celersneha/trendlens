@@ -1,7 +1,10 @@
 {
+  "version": 2,
+  "buildCommand": "pnpm db:push && pnpm build",
+  "outputDirectory": "dist",
   "functions": {
     "api/index.ts": {
-      "memory": 2048,
+      "memory": 1024,
       "maxDuration": 60
     }
   },
