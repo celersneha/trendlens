@@ -1,5 +1,5 @@
 import express from "express";
-import trendingRoutes from "./src/routes/trending.routes.js";
+import trendingRoutes from "./routes/trending.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
