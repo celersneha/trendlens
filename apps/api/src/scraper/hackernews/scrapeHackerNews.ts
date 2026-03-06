@@ -1,5 +1,15 @@
 import { HackerNewsStory } from "@prisma/client";
 
+// Type augmentation for fetch API
+declare global {
+  interface Response {
+    ok: boolean;
+    status: number;
+    statusText: string;
+    json(): Promise<any>;
+  }
+}
+
 const HN_TOP_STORIES_URL =
   "https://hacker-news.firebaseio.com/v0/topstories.json";
 const HN_ITEM_URL = "https://hacker-news.firebaseio.com/v0/item";
