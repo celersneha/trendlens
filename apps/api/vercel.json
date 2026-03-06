@@ -3,8 +3,7 @@
   "buildCommand": "pnpm prisma generate",
   "functions": {
     "api/index.ts": {
-      "maxDuration": 60,
-      "includeFiles": "generated/prisma/**"
+      "maxDuration": 60
     }
   },
   "rewrites": [
