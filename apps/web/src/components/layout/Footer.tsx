@@ -5,25 +5,25 @@ export default function Footer() {
     {
       name: "GitHub",
       icon: FiGithub,
-      href: "https://github.com/celersneha",
+      href: "https://github.com/cleosneha",
       ariaLabel: "Visit our GitHub profile",
     },
     {
       name: "LinkedIn",
       icon: FiLinkedin,
-      href: "https://linkedin.com/celersneha",
+      href: "https://linkedin.com/cleosneha",
       ariaLabel: "Connect on LinkedIn",
     },
     {
       name: "Twitter",
       icon: FiTwitter,
-      href: "https://x.com/celersneha",
+      href: "https://x.com/cleosneha",
       ariaLabel: "Follow us on Twitter",
     },
     {
       name: "Email",
       icon: FiMail,
-      href: "mailto:celersneha@gmail.com",
+      href: "mailto:cleosneha@gmail.com",
       ariaLabel: "Send us an email",
     },
   ];
